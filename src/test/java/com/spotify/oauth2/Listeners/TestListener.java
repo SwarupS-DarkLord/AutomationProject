@@ -1,6 +1,4 @@
 package com.spotify.oauth2.Listeners;
-
-import com.spotify.oauth2.utils.PropertyUtils;
 import com.spotify.oauth2.utils.UrlLoader;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
