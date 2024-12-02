@@ -40,8 +40,7 @@ pipeline {
         stage('Publish Test Results') {
             steps {
                 // Publish TestNG results
-               // junit '**/target/test-*.xml'
-                **/testng-results.xml
+               junit '**/target/test-*.xml'
             }
         }
     }
