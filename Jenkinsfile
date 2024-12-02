@@ -20,7 +20,7 @@ pipeline {
                 // Run Maven build
                 script {
                     try {
-                        sh 'mvn clean install -DskipTests=false'
+                        bat 'mvn clean install -DskipTests=false'
                     } catch (Exception e) {
                         // Handle build failure
                         currentBuild.result = 'FAILURE'
@@ -35,7 +35,7 @@ pipeline {
                 // Run tests using Maven
                 script {
                     try {
-                        sh 'mvn test'
+                        bat 'mvn test'
                     } catch (Exception e) {
                         // Handle test failures
                         currentBuild.result = 'FAILURE'
