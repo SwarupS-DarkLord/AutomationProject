@@ -30,11 +30,6 @@ public class PlayListTests extends BaseTest {
 
     @Step
     public Playlist playlistBuilder(String description, String name, boolean _public) {
-//        Playlist requestPlaylist = new Playlist();
-//        requestPlaylist.setDescription(description);
-//        requestPlaylist.setName(name);
-//        requestPlaylist.set_public(_public);
-        //        return requestPlaylist;
         return Playlist.builder().description(description).name(name)._public(_public).build();
 
     }
