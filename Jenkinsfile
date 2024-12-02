@@ -19,12 +19,8 @@ pipeline {
             steps {
                 // Run Maven build
                 script {
-                    try {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         bat 'mvn clean install -DskipTests=false'
-                    } catch (Exception e) {
-                        // Handle build failure
-                        currentBuild.result = 'FAILURE'
-                        throw e
                     }
                 }
             }
@@ -34,13 +30,8 @@ pipeline {
             steps {
                 // Run tests using Maven
                 script {
-                    try {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                         bat 'mvn test'
-                    } catch (Exception e) {
-                        // Handle test failures
-                        // currentBuild.result = 'FAILURE'
-                        // throw e
-                        echo 'Failure occured'
                     }
                 }
             }
@@ -55,13 +46,13 @@ pipeline {
     }
 
     // Define triggers
-    // triggers {
-    //     // Trigger a build on every commit to the master branch
-    //     githubPush()
+    triggers {
+        // Trigger a build on every commit to the master branch
+        githubPush()
 
-    //     // Trigger a build once per day
-    //     cron('H 0 * * *')  // This runs at midnight every day
-    // }
+        // Trigger a build once per day
+        cron('H 0 * * *')  // This runs at midnight every day
+    }
 
     post {
         success {
@@ -70,7 +61,7 @@ pipeline {
         }
         failure {
             // Log failure message when the build or tests fail
-            echo 'Build or Tests failed!'
+            echo 'Build or Tests failed, but pipeline continued to completion.'
         }
     }
 }
