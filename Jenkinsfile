@@ -41,6 +41,7 @@ pipeline {
             steps {
                 // Publish TestNG results
                 junit '**/target/test-*.xml'
+
             }
         }
     }
