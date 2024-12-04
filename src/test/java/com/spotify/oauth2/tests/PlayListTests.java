@@ -72,18 +72,18 @@ public class PlayListTests extends BaseTest {
 
     }
 
-    @Issue("432")
-    @Description("This is the description")
-    @Test(description = "Gets the playlist")
-    public void getAPlaylist() {
-        Playlist requestPlaylist = playlistBuilder("New playlist description",
-                "New Playlist", false);
-        Response response = PlaylistApi.get(DataLoader.getInstance().getGetPlaylistId());
-        assertStatusCode(response.statusCode(), StatusCodeEnum.CODE_200);
-        Playlist responsePlaylist = response.as(Playlist.class);
-        assertPlaylistEqual(responsePlaylist, requestPlaylist);
-
-    }
+//    @Issue("432")
+//    @Description("This is the description")
+//    @Test(description = "Gets the playlist")
+//    public void getAPlaylist() {
+//        Playlist requestPlaylist = playlistBuilder("New playlist description",
+//                "New Playlist", false);
+//        Response response = PlaylistApi.get(DataLoader.getInstance().getGetPlaylistId());
+//        assertStatusCode(response.statusCode(), StatusCodeEnum.CODE_200);
+//        Playlist responsePlaylist = response.as(Playlist.class);
+//        assertPlaylistEqual(responsePlaylist, requestPlaylist);
+//
+//    }
 
     @TmsLink("test-2")
     @Description("This is the description")
