@@ -1,11 +1,14 @@
 package com.spotify.oauth2.Listeners;
-import com.spotify.oauth2.utils.UrlLoader;
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
+
+import com.spotify.oauth2.Annotation.TestExecutionAnnotation;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+
+import java.util.Optional;
+
+import static com.spotify.oauth2.TeamsIntegrationService.TeamsServiceProvider.sendTeamsMessage;
+import static com.spotify.oauth2.jiraserviceprovider.JiraService.updateJiraExecutionStatus;
 
 public class TestListener implements ITestListener {
 
@@ -22,6 +25,10 @@ public class TestListener implements ITestListener {
     public void onTestSuccess(ITestResult result) {
         try {
             sendTeamsMessage("This test has passed", result.getName() );
+            String testExecutionKey = Optional.of(result.getMethod().getConstructorOrMethod().getMethod()
+                    .getAnnotation(TestExecutionAnnotation.TestExecutionDetails.class).key()).get();
+            System.out.println(testExecutionKey);
+           updateJiraExecutionStatus("Pass",testExecutionKey);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -31,22 +38,14 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         try {
             sendTeamsMessage("This test has Failed", result.getName() );
+            String testExecutionKey = Optional.of(result.getMethod().getConstructorOrMethod().getMethod()
+                    .getAnnotation(TestExecutionAnnotation.TestExecutionDetails.class).key()).get();
+            updateJiraExecutionStatus("Fail",testExecutionKey);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void sendTeamsMessage(String title, String message) throws JSONException {
-        // Create the JSON payload for Teams message
-        JSONObject json = new JSONObject();
-        json.put("title", title);
-        json.put("text", message);
 
-        // Send the message to Teams via Rest Assured
-        Response response = RestAssured.given()
-                .header("Content-Type", "application/json")
-                .body(json.toString())
-                .post(UrlLoader.getInstance().getUrlWebHook());
 
-    }
 }

@@ -1,5 +1,6 @@
 package com.spotify.oauth2.tests;
 
+import com.spotify.oauth2.Annotation.TestExecutionAnnotation;
 import com.spotify.oauth2.api.StatusCodeEnum;
 import com.spotify.oauth2.api.applicationapi.PlaylistApi;
 import com.spotify.oauth2.pojo.Error;
@@ -46,11 +47,6 @@ public class PlayListTests extends BaseTest {
         assertThat(actualStatusCode, is(equalTo(expectedStatusCode.getCode())));
     }
 
-    //    @Step
-//    public void assertError(Error error, String expectedErrorMessage, int statusCode) {
-//        assertThat(error.getError().getMessage(), is(equalTo(expectedErrorMessage)));
-//        assertThat(error.getError().getStatus(), is(equalTo(statusCode)));
-//    }
     @Step
     public void assertError(Error error, StatusCodeEnum statusCode) {
         assertThat(error.getError().getMessage(), is(equalTo(statusCode.getMessage())));
@@ -62,6 +58,7 @@ public class PlayListTests extends BaseTest {
     @Link(name = "allure", type = "mylink")
     @Description("This is the description")
     @Test(description = "Create a playlist")
+    @TestExecutionAnnotation.TestExecutionDetails(key = "SCRUM-E4")
     public void createAPlaylist() {
         Playlist requestPlaylist = playlistBuilder("New playlist description",
                 "New Playlist", false);
@@ -88,6 +85,7 @@ public class PlayListTests extends BaseTest {
     @TmsLink("test-2")
     @Description("This is the description")
     @Test(description = "Updates the playlist")
+    @TestExecutionAnnotation.TestExecutionDetails(key = "SCRUM-E2")
     public void updatePlaylist() {
         Playlist requestPlaylist = playlistBuilder(generateDescription(),
                 generateName(),
@@ -101,6 +99,7 @@ public class PlayListTests extends BaseTest {
     @TmsLink("test-6")
     @Description("This is the description")
     @Test(description = "Should not create a playlist with no name")
+    @TestExecutionAnnotation.TestExecutionDetails(key = "SCRUM-E5")
     public void shouldNotCreateAPlaylistWithNoName() {
 
         Playlist requestPlaylist = playlistBuilder(generateDescription(),
@@ -115,6 +114,7 @@ public class PlayListTests extends BaseTest {
     @Story("Create a playlist")
     @Description("This is the description")
     @Test(description = "Should not create a playlist with expired token")
+    @TestExecutionAnnotation.TestExecutionDetails(key = "SCRUM-E3")
     public void shouldNotCreateAPlaylistWithExpiredToken() {
         Playlist requestPlaylist = playlistBuilder(generateDescription(),
                 generateName(), false);
